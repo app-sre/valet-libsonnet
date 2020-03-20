@@ -1,0 +1,319 @@
+recordingrule:
+- expr: "sum by (status_class) (\n  label_replace(\n    rate(haproxy_server_http_responses_total{route=\"\
+    cincinnati-route-prod\"}[5m]\n  ), \"status_class\", \"${1}xx\", \"code\", \"\
+    ([0-9])..\")\n)\n"
+  labels:
+    component: cincinnati-policy-engine
+    route: cincinnati-route-prod
+    service: cincinnati
+  record: status_class:http_responses_total:rate5m
+- expr: "sum by (status_class) (\n  label_replace(\n    rate(haproxy_server_http_responses_total{route=\"\
+    cincinnati-route-prod\"}[30m]\n  ), \"status_class\", \"${1}xx\", \"code\", \"\
+    ([0-9])..\")\n)\n"
+  labels:
+    component: cincinnati-policy-engine
+    route: cincinnati-route-prod
+    service: cincinnati
+  record: status_class:http_responses_total:rate30m
+- expr: "sum by (status_class) (\n  label_replace(\n    rate(haproxy_server_http_responses_total{route=\"\
+    cincinnati-route-prod\"}[1h]\n  ), \"status_class\", \"${1}xx\", \"code\", \"\
+    ([0-9])..\")\n)\n"
+  labels:
+    component: cincinnati-policy-engine
+    route: cincinnati-route-prod
+    service: cincinnati
+  record: status_class:http_responses_total:rate1h
+- expr: "sum by (status_class) (\n  label_replace(\n    rate(haproxy_server_http_responses_total{route=\"\
+    cincinnati-route-prod\"}[2h]\n  ), \"status_class\", \"${1}xx\", \"code\", \"\
+    ([0-9])..\")\n)\n"
+  labels:
+    component: cincinnati-policy-engine
+    route: cincinnati-route-prod
+    service: cincinnati
+  record: status_class:http_responses_total:rate2h
+- expr: "sum by (status_class) (\n  label_replace(\n    rate(haproxy_server_http_responses_total{route=\"\
+    cincinnati-route-prod\"}[6h]\n  ), \"status_class\", \"${1}xx\", \"code\", \"\
+    ([0-9])..\")\n)\n"
+  labels:
+    component: cincinnati-policy-engine
+    route: cincinnati-route-prod
+    service: cincinnati
+  record: status_class:http_responses_total:rate6h
+- expr: "sum by (status_class) (\n  label_replace(\n    rate(haproxy_server_http_responses_total{route=\"\
+    cincinnati-route-prod\"}[1d]\n  ), \"status_class\", \"${1}xx\", \"code\", \"\
+    ([0-9])..\")\n)\n"
+  labels:
+    component: cincinnati-policy-engine
+    route: cincinnati-route-prod
+    service: cincinnati
+  record: status_class:http_responses_total:rate1d
+- expr: 'sum(status_class:http_responses_total:rate5m{route="cincinnati-route-prod",status_class="5xx"})
+
+    /
+
+    sum(status_class:http_responses_total:rate5m{route="cincinnati-route-prod"})
+
+    '
+  labels:
+    component: cincinnati-policy-engine
+    route: cincinnati-route-prod
+    service: cincinnati
+  record: status_class_5xx:http_responses_total:ratio_rate5m
+- expr: 'sum(status_class:http_responses_total:rate30m{route="cincinnati-route-prod",status_class="5xx"})
+
+    /
+
+    sum(status_class:http_responses_total:rate30m{route="cincinnati-route-prod"})
+
+    '
+  labels:
+    component: cincinnati-policy-engine
+    route: cincinnati-route-prod
+    service: cincinnati
+  record: status_class_5xx:http_responses_total:ratio_rate30m
+- expr: 'sum(status_class:http_responses_total:rate1h{route="cincinnati-route-prod",status_class="5xx"})
+
+    /
+
+    sum(status_class:http_responses_total:rate1h{route="cincinnati-route-prod"})
+
+    '
+  labels:
+    component: cincinnati-policy-engine
+    route: cincinnati-route-prod
+    service: cincinnati
+  record: status_class_5xx:http_responses_total:ratio_rate1h
+- expr: 'sum(status_class:http_responses_total:rate2h{route="cincinnati-route-prod",status_class="5xx"})
+
+    /
+
+    sum(status_class:http_responses_total:rate2h{route="cincinnati-route-prod"})
+
+    '
+  labels:
+    component: cincinnati-policy-engine
+    route: cincinnati-route-prod
+    service: cincinnati
+  record: status_class_5xx:http_responses_total:ratio_rate2h
+- expr: 'sum(status_class:http_responses_total:rate6h{route="cincinnati-route-prod",status_class="5xx"})
+
+    /
+
+    sum(status_class:http_responses_total:rate6h{route="cincinnati-route-prod"})
+
+    '
+  labels:
+    component: cincinnati-policy-engine
+    route: cincinnati-route-prod
+    service: cincinnati
+  record: status_class_5xx:http_responses_total:ratio_rate6h
+- expr: 'sum(status_class:http_responses_total:rate1d{route="cincinnati-route-prod",status_class="5xx"})
+
+    /
+
+    sum(status_class:http_responses_total:rate1d{route="cincinnati-route-prod"})
+
+    '
+  labels:
+    component: cincinnati-policy-engine
+    route: cincinnati-route-prod
+    service: cincinnati
+  record: status_class_5xx:http_responses_total:ratio_rate1d
+- expr: "histogram_quantile(\n  0.90,\n  sum(rate(cincinnati_pe_v1_graph_serve_duration_seconds_bucket{job=\"\
+    cincinnati-policy-engine\"}[5m])) by (le)\n)\n"
+  labels:
+    component: cincinnati-policy-engine
+    job: cincinnati-policy-engine
+    service: cincinnati
+  record: component:latency:p90_rate5m
+- expr: "histogram_quantile(\n  0.90,\n  sum(rate(cincinnati_pe_v1_graph_serve_duration_seconds_bucket{job=\"\
+    cincinnati-policy-engine\"}[30m])) by (le)\n)\n"
+  labels:
+    component: cincinnati-policy-engine
+    job: cincinnati-policy-engine
+    service: cincinnati
+  record: component:latency:p90_rate30m
+- expr: "histogram_quantile(\n  0.90,\n  sum(rate(cincinnati_pe_v1_graph_serve_duration_seconds_bucket{job=\"\
+    cincinnati-policy-engine\"}[1h])) by (le)\n)\n"
+  labels:
+    component: cincinnati-policy-engine
+    job: cincinnati-policy-engine
+    service: cincinnati
+  record: component:latency:p90_rate1h
+- expr: "histogram_quantile(\n  0.90,\n  sum(rate(cincinnati_pe_v1_graph_serve_duration_seconds_bucket{job=\"\
+    cincinnati-policy-engine\"}[2h])) by (le)\n)\n"
+  labels:
+    component: cincinnati-policy-engine
+    job: cincinnati-policy-engine
+    service: cincinnati
+  record: component:latency:p90_rate2h
+- expr: "histogram_quantile(\n  0.90,\n  sum(rate(cincinnati_pe_v1_graph_serve_duration_seconds_bucket{job=\"\
+    cincinnati-policy-engine\"}[6h])) by (le)\n)\n"
+  labels:
+    component: cincinnati-policy-engine
+    job: cincinnati-policy-engine
+    service: cincinnati
+  record: component:latency:p90_rate6h
+- expr: "histogram_quantile(\n  0.90,\n  sum(rate(cincinnati_pe_v1_graph_serve_duration_seconds_bucket{job=\"\
+    cincinnati-policy-engine\"}[1d])) by (le)\n)\n"
+  labels:
+    component: cincinnati-policy-engine
+    job: cincinnati-policy-engine
+    service: cincinnati
+  record: component:latency:p90_rate1d
+- expr: status_class:http_responses_total:rate5m{route="cincinnati-route-prod",status_class!="5xx"}
+    < bool(5000)
+  labels:
+    component: cincinnati-policy-engine
+    route: cincinnati-route-prod
+    service: cincinnati
+  record: component:volume:slo_ok_5m
+- expr: status_class:http_responses_total:rate30m{route="cincinnati-route-prod",status_class!="5xx"}
+    < bool(5000)
+  labels:
+    component: cincinnati-policy-engine
+    route: cincinnati-route-prod
+    service: cincinnati
+  record: component:volume:slo_ok_30m
+- expr: status_class:http_responses_total:rate1h{route="cincinnati-route-prod",status_class!="5xx"}
+    < bool(5000)
+  labels:
+    component: cincinnati-policy-engine
+    route: cincinnati-route-prod
+    service: cincinnati
+  record: component:volume:slo_ok_1h
+- expr: status_class:http_responses_total:rate2h{route="cincinnati-route-prod",status_class!="5xx"}
+    < bool(5000)
+  labels:
+    component: cincinnati-policy-engine
+    route: cincinnati-route-prod
+    service: cincinnati
+  record: component:volume:slo_ok_2h
+- expr: status_class:http_responses_total:rate6h{route="cincinnati-route-prod",status_class!="5xx"}
+    < bool(5000)
+  labels:
+    component: cincinnati-policy-engine
+    route: cincinnati-route-prod
+    service: cincinnati
+  record: component:volume:slo_ok_6h
+- expr: status_class:http_responses_total:rate1d{route="cincinnati-route-prod",status_class!="5xx"}
+    < bool(5000)
+  labels:
+    component: cincinnati-policy-engine
+    route: cincinnati-route-prod
+    service: cincinnati
+  record: component:volume:slo_ok_1d
+- expr: component:latency:p90_rate5m < bool(3)
+  labels:
+    component: cincinnati-policy-engine
+    job: cincinnati-policy-engine
+    service: cincinnati
+  record: component:latency:slo_ok_5m
+- expr: component:latency:p90_rate30m < bool(3)
+  labels:
+    component: cincinnati-policy-engine
+    job: cincinnati-policy-engine
+    service: cincinnati
+  record: component:latency:slo_ok_30m
+- expr: component:latency:p90_rate1h < bool(3)
+  labels:
+    component: cincinnati-policy-engine
+    job: cincinnati-policy-engine
+    service: cincinnati
+  record: component:latency:slo_ok_1h
+- expr: component:latency:p90_rate2h < bool(3)
+  labels:
+    component: cincinnati-policy-engine
+    job: cincinnati-policy-engine
+    service: cincinnati
+  record: component:latency:slo_ok_2h
+- expr: component:latency:p90_rate6h < bool(3)
+  labels:
+    component: cincinnati-policy-engine
+    job: cincinnati-policy-engine
+    service: cincinnati
+  record: component:latency:slo_ok_6h
+- expr: component:latency:p90_rate1d < bool(3)
+  labels:
+    component: cincinnati-policy-engine
+    job: cincinnati-policy-engine
+    service: cincinnati
+  record: component:latency:slo_ok_1d
+- expr: status_class_5xx:http_responses_total:ratio_rate5m{route="cincinnati-route-prod"}
+    < bool(1)
+  labels:
+    component: cincinnati-policy-engine
+    route: cincinnati-route-prod
+    service: cincinnati
+  record: component:errors:slo_ok_5m
+- expr: status_class_5xx:http_responses_total:ratio_rate30m{route="cincinnati-route-prod"}
+    < bool(1)
+  labels:
+    component: cincinnati-policy-engine
+    route: cincinnati-route-prod
+    service: cincinnati
+  record: component:errors:slo_ok_30m
+- expr: status_class_5xx:http_responses_total:ratio_rate1h{route="cincinnati-route-prod"}
+    < bool(1)
+  labels:
+    component: cincinnati-policy-engine
+    route: cincinnati-route-prod
+    service: cincinnati
+  record: component:errors:slo_ok_1h
+- expr: status_class_5xx:http_responses_total:ratio_rate2h{route="cincinnati-route-prod"}
+    < bool(1)
+  labels:
+    component: cincinnati-policy-engine
+    route: cincinnati-route-prod
+    service: cincinnati
+  record: component:errors:slo_ok_2h
+- expr: status_class_5xx:http_responses_total:ratio_rate6h{route="cincinnati-route-prod"}
+    < bool(1)
+  labels:
+    component: cincinnati-policy-engine
+    route: cincinnati-route-prod
+    service: cincinnati
+  record: component:errors:slo_ok_6h
+- expr: status_class_5xx:http_responses_total:ratio_rate1d{route="cincinnati-route-prod"}
+    < bool(1)
+  labels:
+    component: cincinnati-policy-engine
+    route: cincinnati-route-prod
+    service: cincinnati
+  record: component:errors:slo_ok_1d
+- expr: component:latency:slo_ok_5m * component:errors:slo_ok_5m
+  labels:
+    component: cincinnati-policy-engine
+    job: cincinnati-policy-engine
+    service: cincinnati
+  record: component:availability:slo_ok_5m
+- expr: component:latency:slo_ok_30m * component:errors:slo_ok_30m
+  labels:
+    component: cincinnati-policy-engine
+    job: cincinnati-policy-engine
+    service: cincinnati
+  record: component:availability:slo_ok_30m
+- expr: component:latency:slo_ok_1h * component:errors:slo_ok_1h
+  labels:
+    component: cincinnati-policy-engine
+    job: cincinnati-policy-engine
+    service: cincinnati
+  record: component:availability:slo_ok_1h
+- expr: component:latency:slo_ok_2h * component:errors:slo_ok_2h
+  labels:
+    component: cincinnati-policy-engine
+    job: cincinnati-policy-engine
+    service: cincinnati
+  record: component:availability:slo_ok_2h
+- expr: component:latency:slo_ok_6h * component:errors:slo_ok_6h
+  labels:
+    component: cincinnati-policy-engine
+    job: cincinnati-policy-engine
+    service: cincinnati
+  record: component:availability:slo_ok_6h
+- expr: component:latency:slo_ok_1d * component:errors:slo_ok_1d
+  labels:
+    component: cincinnati-policy-engine
+    job: cincinnati-policy-engine
+    service: cincinnati
+  record: component:availability:slo_ok_1d
