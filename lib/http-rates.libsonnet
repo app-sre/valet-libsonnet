@@ -3,7 +3,6 @@ local util = import '_util.libsonnet';
   httpRates(param):: {
     local slo = {
       metric: error 'must set metric for errorburn',
-      recordingRuleMetric: self.metric,
       selectors: error 'must set selectors for errorburn',
       labels: [],
       rates: ['5m', '30m', '1h', '2h', '6h', '1d'],
@@ -28,10 +27,7 @@ local util = import '_util.libsonnet';
           rate,
           slo.codeSelector,
         ],
-        record: 'status_class:%s:rate%s' % [
-          slo.recordingRuleMetric,
-          rate,
-        ],
+        record: 'status_class:http_responses_total:rate%s' % rate,
         labels: labels,
         rate:: rate,
       }

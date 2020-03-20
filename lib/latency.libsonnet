@@ -3,7 +3,6 @@ local util = import '_util.libsonnet';
   latencyPercentileRates(param):: {
     local slo = {
       metric: error 'must set metric for latency',
-      recordingRuleMetric: self.metric,
       selectors: error 'must set selectors for latency',
       labels: [],
       rates: ['5m', '30m', '1h', '2h', '6h', '1d'],
@@ -27,8 +26,7 @@ local util = import '_util.libsonnet';
           std.join(',', slo.selectors),
           rate,
         ],
-        record: 'component:%s:p%s_rate%s' % [
-          slo.recordingRuleMetric,
+        record: 'component:latency:p%s_rate%s' % [
           slo.percentile,
           rate,
         ],
