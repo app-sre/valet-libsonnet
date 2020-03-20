@@ -1,7 +1,7 @@
 local sloFromRecordingRules(category, param) =
   local slo = {
     recordingRules: error 'must set recordingRules for %sSLO' % category,
-    threshold: error 'must set threshold for %sSLO' % category,
+    threshold: error 'must set a threshold for %s SLO' % category,
     selectors: [],
   } + param;
 
