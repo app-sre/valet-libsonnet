@@ -31,7 +31,7 @@ local util = import '_util.libsonnet';
         labels: labels,
         rate:: rate,
       }
-      for rate in slo.rates
+      for rate in std.uniq(slo.rates)
     ],
 
     errorRateRules: [
@@ -46,7 +46,7 @@ local util = import '_util.libsonnet';
           r.record,
           std.join(',', slo.selectors),
         ],
-        record: 'status_class_5xx:%s:ratio_rate%s' % [slo.recordingRuleMetric, r.rate],
+        record: 'status_class_5xx:http_responses_total:ratio_rate%s' % r.rate,
         labels: labels,
         rate:: r.rate,
       }

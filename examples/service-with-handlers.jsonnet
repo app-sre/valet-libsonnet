@@ -1,39 +1,42 @@
 local slo = import '../lib/valet.libsonnet';
 
 // Rules that will be reused in SLO rules
-local labels = ['service="cincinnati"', 'component="cincinnati-policy-engine"'];
+local labels = ['service="foo"', 'component="bar"'];
+local rates = ['5m'];
 local httpRates = slo.httpRates({
   metric: 'haproxy_server_http_responses_total',
-  selectors: ['route="cincinnati-route-prod"'],
+  selectors: ['route="bar-prod"'],
+  rates: rates,
   labels: labels,
 });
 local latencyPercentileRates = slo.latencyPercentileRates({
-  metric: 'cincinnati_pe_v1_graph_serve_duration_seconds_bucket',
-  percentile: '90',
-  selectors: ['job="cincinnati-policy-engine"'],
+  metric: 'foo_upload_seconds_bucket',
+  percentile: '95',
+  selectors: ['selector="qux"'],
   labels: labels,
+  rates: rates,
+  handlers: ['job="read"', 'job="write"'],
 });
 
 // SLOs from above rules (they will inherit the labels)
 local volumeSLO = slo.volumeSLO({
   rules: httpRates.rateRules,
-  threshold: '5000',
-  selectors: ['route="cincinnati-route-prod"', 'status_class!="5xx"'],
+  threshold: 100,
+  selectors: ['route="bar-prod"', 'status_class!="5xx"'],
 });
 local latencySLO = slo.latencySLO({
   rules: latencyPercentileRates.rules,
   rulesBuilder: latencyPercentileRates.rulesBuilder,
-  threshold: '3',
+  threshold: '0.1',
 });
 local errorsSLO = slo.errorsSLO({
   rules: httpRates.errorRateRules,
-  threshold: '1',
-  selectors: ['route="cincinnati-route-prod"'],
+  threshold: '0.001',
+  selectors: ['route="bar-prod"'],
 });
 local availabilitySLO = slo.availabilitySLO(errorsSLO.rules, latencySLO.rulesProductBuilder);
 
 {
-  //r: latencyPercentileRates.rules,
   recordingrule:
     httpRates.rateRules +
     httpRates.errorRateRules +

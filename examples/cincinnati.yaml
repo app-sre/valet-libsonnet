@@ -285,35 +285,41 @@ recordingrule:
   labels:
     component: cincinnati-policy-engine
     job: cincinnati-policy-engine
+    route: cincinnati-route-prod
     service: cincinnati
   record: component:availability:slo_ok_5m
 - expr: component:latency:slo_ok_30m * component:errors:slo_ok_30m
   labels:
     component: cincinnati-policy-engine
     job: cincinnati-policy-engine
+    route: cincinnati-route-prod
     service: cincinnati
   record: component:availability:slo_ok_30m
 - expr: component:latency:slo_ok_1h * component:errors:slo_ok_1h
   labels:
     component: cincinnati-policy-engine
     job: cincinnati-policy-engine
+    route: cincinnati-route-prod
     service: cincinnati
   record: component:availability:slo_ok_1h
 - expr: component:latency:slo_ok_2h * component:errors:slo_ok_2h
   labels:
     component: cincinnati-policy-engine
     job: cincinnati-policy-engine
+    route: cincinnati-route-prod
     service: cincinnati
   record: component:availability:slo_ok_2h
 - expr: component:latency:slo_ok_6h * component:errors:slo_ok_6h
   labels:
     component: cincinnati-policy-engine
     job: cincinnati-policy-engine
+    route: cincinnati-route-prod
     service: cincinnati
   record: component:availability:slo_ok_6h
 - expr: component:latency:slo_ok_1d * component:errors:slo_ok_1d
   labels:
     component: cincinnati-policy-engine
     job: cincinnati-policy-engine
+    route: cincinnati-route-prod
     service: cincinnati
   record: component:availability:slo_ok_1d
