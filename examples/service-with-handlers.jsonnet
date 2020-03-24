@@ -1,4 +1,4 @@
-local slo = import '../lib/valet.libsonnet';
+local slo = import '../valet.libsonnet';
 
 // Rules that will be reused in SLO rules
 local labels = ['service="foo"', 'component="bar"'];
