@@ -27,13 +27,15 @@ local latencySLO = slo.latencySLO({
 });
 local errorsSLO = slo.errorsSLO({
   rules: httpRates.errorRateRules,
+  rulesBuilder: httpRates.errorRateRulesBuilder,
   threshold: '1',
   selectors: ['route="cincinnati-route-prod"'],
 });
-local availabilitySLO = slo.availabilitySLO(errorsSLO.rules, latencySLO.rulesProductBuilder);
+local availabilitySLO = slo.availabilitySLO(
+  errorsSLO.rulesProductBuilder, latencySLO.rulesProductBuilder
+);
 
 {
-  //r: latencyPercentileRates.rules,
   recordingrule:
     httpRates.rateRules +
     httpRates.errorRateRules +

@@ -16,6 +16,20 @@ recordingrule:
     '
   labels:
     component: bar
+    job: read
+    route: bar-prod
+    service: foo
+  record: status_class_5xx:http_responses_total:ratio_rate5m
+- expr: 'sum(status_class:http_responses_total:rate5m{route="bar-prod",status_class="5xx"})
+
+    /
+
+    sum(status_class:http_responses_total:rate5m{route="bar-prod"})
+
+    '
+  labels:
+    component: bar
+    job: write
     route: bar-prod
     service: foo
   record: status_class_5xx:http_responses_total:ratio_rate5m
@@ -59,12 +73,22 @@ recordingrule:
 - expr: status_class_5xx:http_responses_total:ratio_rate5m{route="bar-prod"} < bool(0.001)
   labels:
     component: bar
+    job: read
     route: bar-prod
     service: foo
   record: component:errors:slo_ok_5m
-- expr: component:errors:slo_ok_5m * component:latency:slo_ok_5m{job="read"} * component:latency:slo_ok_5m{job="write"}
+- expr: status_class_5xx:http_responses_total:ratio_rate5m{route="bar-prod"} < bool(0.001)
+  labels:
+    component: bar
+    job: write
+    route: bar-prod
+    service: foo
+  record: component:errors:slo_ok_5m
+- expr: component:latency:slo_ok_5m{job="read"} * component:latency:slo_ok_5m{job="write"}
+    * component:errors:slo_ok_5m{job="read"} * component:errors:slo_ok_5m{job="write"}
   labels:
     component: bar
     route: bar-prod
+    selector: qux
     service: foo
   record: component:availability:slo_ok_5m

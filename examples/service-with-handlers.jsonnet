@@ -8,6 +8,7 @@ local httpRates = slo.httpRates({
   selectors: ['route="bar-prod"'],
   rates: rates,
   labels: labels,
+  handlers: ['job="read"', 'job="write"'],
 });
 local latencyPercentileRates = slo.latencyPercentileRates({
   metric: 'foo_upload_seconds_bucket',
@@ -31,10 +32,13 @@ local latencySLO = slo.latencySLO({
 });
 local errorsSLO = slo.errorsSLO({
   rules: httpRates.errorRateRules,
+  rulesBuilder: httpRates.errorRateRulesBuilder,
   threshold: '0.001',
   selectors: ['route="bar-prod"'],
 });
-local availabilitySLO = slo.availabilitySLO(errorsSLO.rules, latencySLO.rulesProductBuilder);
+local availabilitySLO = slo.availabilitySLO(
+  errorsSLO.rulesProductBuilder, latencySLO.rulesProductBuilder
+);
 
 {
   recordingrule:
