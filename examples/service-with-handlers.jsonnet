@@ -1,30 +1,30 @@
 local slo = import '../valet.libsonnet';
 
 // Rules that will be reused in SLO rules
-local labels = ['service="service"', 'component="component"'];
+local labels = ['service="yolo"', 'component="yak-shaver"'];
 local rates = ['5m'];
 local httpRatesRead = slo.httpRates({
-  metric: 'http_responses_total',
+  metric: 'http_metric_handler_requests_total',
   selectors: ['handler="read"'],
   rates: rates,
   labels: labels,
 });
 local httpRatesWrite = slo.httpRates({
-  metric: 'http_responses_total',
+  metric: 'http_metric_handler_requests_total',
   selectors: ['handler="write"'],
   rates: rates,
   labels: labels,
 });
 
 local latencyPercentileRatesRead = slo.latencyPercentileRates({
-  metric: 'foo_upload_seconds_bucket',
+  metric: 'http_request_duration_seconds_bucket',
   selectors: ['handler="read"'],
   percentile: '95',
   labels: labels,
   rates: rates,
 });
 local latencyPercentileRatesWrite = slo.latencyPercentileRates({
-  metric: 'foo_upload_seconds_bucket',
+  metric: 'http_request_duration_seconds_bucket',
   selectors: ['handler="write"'],
   percentile: '95',
   labels: labels,
@@ -33,7 +33,7 @@ local latencyPercentileRatesWrite = slo.latencyPercentileRates({
 
 local volumeSLORead = slo.volumeSLO({
   rules: httpRatesRead.rateRules,
-  threshold: 100,
+  threshold: 1000,
 });
 local volumeSLOWrite = slo.volumeSLO({
   rules: httpRatesWrite.rateRules,
@@ -41,19 +41,19 @@ local volumeSLOWrite = slo.volumeSLO({
 });
 local latencySLORead = slo.latencySLO({
   rules: latencyPercentileRatesRead.rules,
-  threshold: '0.1',
+  threshold: '0.5',
 });
 local latencySLOWrite = slo.latencySLO({
   rules: latencyPercentileRatesWrite.rules,
-  threshold: '0.2',
+  threshold: '1',
 });
 local errorsSLORead = slo.errorsSLO({
   rules: httpRatesRead.errorRateRules,
-  threshold: '0.001',
+  threshold: '1',
 });
 local errorsSLOWrite = slo.errorsSLO({
   rules: httpRatesWrite.errorRateRules,
-  threshold: '0.001',
+  threshold: '5',
 });
 
 local availabilitySLORead = slo.availabilitySLO({
