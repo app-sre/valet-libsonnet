@@ -27,7 +27,7 @@ local util = import '_util.libsonnet';
           rate,
           slo.codeSelector,
         ],
-        record: 'status_class:http_responses_total:rate%s' % rate,
+        record: 'status_class:http_requests_total:rate%s' % rate,
         labels: labels,
         rate:: rate,
       }
@@ -46,7 +46,7 @@ local util = import '_util.libsonnet';
           r.record,
           std.join(',', slo.selectors),
         ],
-        record: 'status_class_5xx:http_responses_total:ratio_rate%s' % r.rate,
+        record: 'status_class_5xx:http_requests_total:ratio_rate%s' % r.rate,
         labels: labels,
         rate:: r.rate,
         handlers:: slo.handlers,
