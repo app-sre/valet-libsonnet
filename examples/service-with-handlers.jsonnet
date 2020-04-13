@@ -4,28 +4,28 @@ local slo = import '../valet.libsonnet';
 local labels = ['service="yolo"', 'component="yak-shaver"'];
 local rates = ['5m'];
 local httpRatesRead = slo.httpRates({
-  metric: 'http_metric_handler_requests_total',
-  selectors: ['handler="read"'],
+  metric: 'haproxy_server_http_responses_total',
+  selectors: ['route="yak-shaver-read"'],
   rates: rates,
   labels: labels,
 });
 local httpRatesWrite = slo.httpRates({
-  metric: 'http_metric_handler_requests_total',
-  selectors: ['handler="write"'],
+  metric: 'haproxy_server_http_responses_total',
+  selectors: ['route="yak-shaver-write"'],
   rates: rates,
   labels: labels,
 });
 
 local latencyPercentileRatesRead = slo.latencyPercentileRates({
   metric: 'http_request_duration_seconds_bucket',
-  selectors: ['handler="read"'],
+  selectors: ['job="yak-shaver-read"'],
   percentile: '95',
   labels: labels,
   rates: rates,
 });
 local latencyPercentileRatesWrite = slo.latencyPercentileRates({
   metric: 'http_request_duration_seconds_bucket',
-  selectors: ['handler="write"'],
+  selectors: ['job="yak-shaver-write"'],
   percentile: '95',
   labels: labels,
   rates: rates,
@@ -74,7 +74,7 @@ local availabilitySLO = slo.availabilitySLO({
   // handler selectors won't get in the selectors. We could also
   // do it querying through handler="" although I guess this is
   // clearer
-  labels: ['handler="all"'],
+  labels: ['route="YAK-SHAVER-ALL"', 'job="YAK-SHAVER-ALL"'],
 });
 
 {
