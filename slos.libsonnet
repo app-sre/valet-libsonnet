@@ -105,14 +105,25 @@ local commonLabels(rules) =
          latencyLabels[key] == errorsLabels[key]
     },
 
+    // we need labels with the same value to perform join
+    local joinLabels = [
+      key
+      for key in std.objectFields(sumLabels)
+      if std.objectHas(latencyLabels, key) &&
+         std.objectHas(errorsLabels, key) &&
+         latencyLabels[key] == errorsLabels[key]
+    ],
+
     local allRules = slo.latencyRules + slo.errorsRules,
+
+    local joinString = ' * on (%s) ' % std.join(',', joinLabels),
 
     rules: [
       {
         record: recordName('availability', allRules[0][inner].rate),
         labels: labels + util.selectorsToLabels(slo.labels),
         expr: std.join(
-          ' * ',
+          joinString,
           std.map(
             function(outer) '%s{%s}' % [
               allRules[outer][inner].record,
